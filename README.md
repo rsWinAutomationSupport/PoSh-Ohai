@@ -1,4 +1,4 @@
 PoSh-Ohai
 =========
 
-Powershell interpretation of opscode's ohai
+PowerShell interpretation of opscode's Ohai
