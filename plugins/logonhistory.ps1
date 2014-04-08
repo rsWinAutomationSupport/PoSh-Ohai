@@ -7,7 +7,7 @@ function Collect-Data {
     
     try
     {
-        $events = Get-WinEvent -LogName Security -FilterXPath $query -MaxEvents 10
+        $events = Get-WinEvent -LogName Security -FilterXPath $query | Sort-Object TimeCreated | Select-Object -First 10
         
         foreach ($event in $events)
         {
@@ -30,7 +30,7 @@ function Collect-Data {
     }
     catch
     {
-        $logons["Error"] = $_.Exception.ToString()
+        #$logons["Error"] = $_.Exception.ToString()
     }
     
     @{ "logonhistory" = $logons}
