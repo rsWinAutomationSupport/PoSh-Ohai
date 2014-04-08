@@ -25,6 +25,7 @@ function Collect-Data {
             $logons[$eventdata["TargetLogonId"]]["logontype"] = $eventdata["LogonType"]
             $logons[$eventdata["TargetLogonId"]]["process"] = $eventdata["ProcessName"]
             $logons[$eventdata["TargetLogonId"]]["sourceip"] = $eventdata["IpAddress"]
+            $logons[$eventdata["TargetLogonId"]]["time"] = $xmlevent.Event.System.TimeCreated.SystemTime
         }
     }
     catch
