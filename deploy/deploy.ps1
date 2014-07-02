@@ -4,6 +4,17 @@ trap
     exit 1
 }
 
+Function Get-Hash
+{
+    param(
+    [string]$Path
+    )
+
+    $md5 = new-object -TypeName System.Security.Cryptography.MD5CryptoServiceProvider
+    $hash = [System.BitConverter]::ToString($md5.ComputeHash([System.IO.File]::ReadAllBytes($Path)))
+    $hash.Replace("-","").toLower()
+}
+
 If (Test-Path -Path (Join-Path -Path $env:TEMP -ChildPath "PoSh-Ohai")) {
     try {
         Write-Host "Found existing temp dir in $($env:TEMP), trying to delete!"
@@ -44,8 +55,20 @@ if ($manifest.ModuleVersion -gt (Get-Module -ListAvailable PoSh-Ohai).version) {
         throw "The attempt to copy the module to its location failed, stopping"
     }
 } else {
-        Write-Host "Downloaded version ($($manifest.ModuleVersion)) not greater than existing version ($( If ((Get-Module -ListAvailable PoSh-Ohai).version) {(Get-Module -ListAvailable PoSh-Ohai).version} else {'not installed'})), nothing to do..."
+    Write-Host "Downloaded version ($($manifest.ModuleVersion)) not greater than existing version ($( If ((Get-Module -ListAvailable PoSh-Ohai).version) {(Get-Module -ListAvailable PoSh-Ohai).version} else {'not installed'})), checking plugins for changes..."
+    $moduleBase = (Get-Module -ListAvailable PoSh-Ohai).ModuleBase
+    $newPlugins = Get-ChildItem -Path (Join-Path -Path $env:TEMP -ChildPath "PoSh-Ohai\plugins") | ForEach-Object {Add-Member -InputObject $_ -MemberType NoteProperty -Name md5 -Value (Get-Hash -Path $_.FullName) -PassThru}
+    $existingPlugins = Get-ChildItem -Path (Join-Path -Path $moduleBase -ChildPath "plugins") | ForEach-Object {Add-Member -InputObject $_ -MemberType NoteProperty -Name md5 -Value (Get-Hash -Path $_.FullName) -PassThru}
+    $different = Compare-Object -ReferenceObject $newPlugins -DifferenceObject $existingPlugins -Property md5 -PassThru | Where-Object { $_.SideIndicator -eq "<="}
+    if ($different) {
+        Write-Host "The following plugins have been changed or added and will be copied: $(($different | ForEach-Object { $_.name }) -join ", ")"
+        $different  | ForEach-Object { Copy-Item -Path $_.FullName -Destination (Resolve-Path (Join-Path -Path $moduleBase -ChildPath "plugins")) }
+    } Else {
+        Write-Host "No change of plugins detect, nothing to do..."
+    }
 }
+
+
 
 Write-Host "Done, deleting temp files..."
 Remove-Item -Path (Join-Path -Path $env:TEMP -ChildPath "PoSh-Ohai") -ErrorAction SilentlyContinue -Recurse -Force
