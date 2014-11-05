@@ -45,11 +45,11 @@ If (Test-Path -Path (Join-Path -Path $env:TEMP -ChildPath "PoSh-Ohai")) {
 }
 
 Write-Host "Downloading Zip file from github to $(Join-Path -Path $env:TEMP -ChildPath 'PoSh-Ohai-master.zip')"
-(New-Object -TypeName System.Net.WebClient).DownloadFile("http://ohai.rax.io/PoSh-Ohai-master.zip",(Join-Path -Path $env:TEMP -ChildPath "PoSh-Ohai-master.zip"))
+(New-Object -TypeName System.Net.WebClient).DownloadFile("http://readonly.configdiscovery.rackspace.com/PoSh-Ohai-master.zip",(Join-Path -Path $env:TEMP -ChildPath "PoSh-Ohai-master.zip"))
 
 Write-Host "Adding ZipStorer Type to decompress downloaded Zip file"
 If (-not ("System.IO.Compression.ZipStorer" -as [type])) {
-    Add-Type -TypeDefinition (New-Object -TypeName System.Net.WebClient).DownloadString("http://ohai.rax.io/ZipStorer.cs") -Language CSharp
+    Add-Type -TypeDefinition (New-Object -TypeName System.Net.WebClient).DownloadString("http://readonly.configdiscovery.rackspace.com/ZipStorer.cs") -Language CSharp
 }
 
 Write-Host "Decompressing zip file to $env:TEMP"
