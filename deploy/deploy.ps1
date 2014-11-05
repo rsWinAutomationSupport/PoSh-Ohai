@@ -1,13 +1,33 @@
-trap
-{
+trap{
     Write-Error -ErrorRecord $_
     exit 1
 }
 
-Function Get-Hash
-{
+$psVersion = $PSVersionTable.PSVersion.Major
+if ($psVersion -le 3){
+    $psMessage = "Powershell Version $psVersion has been detected. The script is exiting"
+    $psSupported = @{
+        PsVersion       = $psVersion
+        Supported       = $false
+        PsMessage       = $psMessage
+    }
+    $psSupported
+    Exit
+}
+else{
+    $psMessage = "Powershell Version $psVersion has been detected. The script is running"
+    $psSupported = @{
+        PsVersion       = $psVersion
+        Supported       = $true
+        PsMessage       = $psMessage
+    }
+    $psSupported
+}
+
+
+Function Get-Hash{
     param(
-    [string]$Path
+        [string]$Path
     )
 
     $md5 = new-object -TypeName System.Security.Cryptography.MD5CryptoServiceProvider
@@ -35,7 +55,7 @@ If (-not ("System.IO.Compression.ZipStorer" -as [type])) {
 Write-Host "Decompressing zip file to $env:TEMP"
 $zip = [System.IO.Compression.ZipStorer]::Open((Join-Path -Path $env:TEMP -ChildPath "PoSh-Ohai-master.zip"),[System.IO.FileAccess]::Read)
 $extractSuccessful = $true
-foreach ($file in $zip.ReadCentralDir()) { 
+foreach ($file in $zip.ReadCentralDir()) {
     if ( -not $zip.ExtractFile($file,(Join-Path -Path $env:TEMP -ChildPath $file.FilenameInZip))) {
 	    $extractSuccessful = $false
 	}
