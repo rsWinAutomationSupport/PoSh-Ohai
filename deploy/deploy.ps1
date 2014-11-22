@@ -4,7 +4,7 @@ trap{
 }
 
 $psVersion = $PSVersionTable.PSVersion.Major
-if ($psVersion -le 3){
+if ($psVersion -lt 3){
     $psMessage = "Powershell Version $psVersion has been detected. The script is exiting"
     $psSupported = @{
         PsVersion       = $psVersion
