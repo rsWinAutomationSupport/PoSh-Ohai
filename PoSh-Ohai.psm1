@@ -54,7 +54,7 @@ function Get-ComputerConfiguration {
     }
     $ErrorActionPreference = $oldErrorActionPreference
 
-    $result | ConvertTo-Json -Depth 20
+    $result | ConvertTo-Json -Depth 40
 <#
  .SYNOPSIS
  The Get-ComputerConfiguration cmdlet is the main and only cmdlet that gets exported from this module. 
@@ -128,8 +128,8 @@ Function ConvertTo-MaskLength {
 # SIG # Begin signature block
 # MIIOiwYJKoZIhvcNAQcCoIIOfDCCDngCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUVp8G/apfdjRkQ3Fh63YAlJxO
-# YeGggguKMIIFeDCCBGCgAwIBAgIQPafpKcj/PFgmgXzOvQfTTjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU2uzNce6RgK9WMOp+WsXAIjWr
+# eymggguKMIIFeDCCBGCgAwIBAgIQPafpKcj/PFgmgXzOvQfTTjANBgkqhkiG9w0B
 # AQUFADCBtDELMAkGA1UEBhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMR8w
 # HQYDVQQLExZWZXJpU2lnbiBUcnVzdCBOZXR3b3JrMTswOQYDVQQLEzJUZXJtcyBv
 # ZiB1c2UgYXQgaHR0cHM6Ly93d3cudmVyaXNpZ24uY29tL3JwYSAoYykxMDEuMCwG
@@ -197,11 +197,11 @@ Function ConvertTo-MaskLength {
 # VmVyaVNpZ24gQ2xhc3MgMyBDb2RlIFNpZ25pbmcgMjAxMCBDQQIQPafpKcj/PFgm
 # gXzOvQfTTjAJBgUrDgMCGgUAoHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZ
 # BgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYB
-# BAGCNwIBFTAjBgkqhkiG9w0BCQQxFgQUvz/fAYi5BHnfhigVKgFUUEAgwHgwDQYJ
-# KoZIhvcNAQEBBQAEggEAX5hYVLtrGA7ekC2LWn+6CKX5Q/eT+a24kRWRgaONxKiy
-# IY71PpgGajDDXamvLkVWLhBQW7wS4dLLqu4zBju32MnWyKjTPffoks1WY3FInWpb
-# 1p5P+9pn/fn/SM9DxQ19bDrmhrJB0KHHrGvvnqyz1Kts6xGquB/GBUAwNzNwkfaM
-# 3mE8fVm5A0GZ+lGubRjyCDhbw+7Mch8ROOavpdzXMvu5D04s5ekXipH0EPh8o5Zf
-# gidXkpJ1OQloluDgSVKpONz/tugqeKc+n3FR6IQj50nZZcOty/YdVSK2DBM9FaY8
-# T87qgXYHknx+cZZkrd+SGRwRSjmr3g41aUv/sn7RKA==
+# BAGCNwIBFTAjBgkqhkiG9w0BCQQxFgQU19F+YtcDDVGMVNPMzA+ABWqIYpEwDQYJ
+# KoZIhvcNAQEBBQAEggEAgynxT7MPWArI1AjDUEyh5Ga0pxoCx2kwes3nR4mVd7h4
+# 7BMLIddvEob/H1pUsvsBQkSc/OY8ErpYitGKm9QbC/yqYh1anpv90aITQ32NaOxn
+# rrHO3PX0OwRhONJD+eSjkSywGvOMALGH07j6y93p6T4jALdsbCpFoMl8001cmNz1
+# g99ldiLt9/um+3kTjkjPPIZ3UuVgw7rtcByKMRkM9yOM2ybVns5vwjflQcWueF4D
+# yslfJU0PUn5UjOjIdnPZrvn0PALf2XJ7ppReCQf4Y4y3BI8tbeDz1/zHlEhv3a36
+# rLv9fD6Cf9/2R9sB//sKq0WTE/hTCCYKmcemJWApkQ==
 # SIG # End signature block
