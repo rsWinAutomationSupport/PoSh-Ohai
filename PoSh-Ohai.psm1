@@ -1,11 +1,11 @@
 <##################################################################################################
-                
-                __________       _________.__              ________  .__           .__ 
+
+                __________       _________.__              ________  .__           .__
                 \______   \____ /   _____/|  |__           \_____  \ |  |__ _____  |__|
                  |     ___/  _ \\_____  \ |  |  \   ______  /   |   \|  |  \\__  \ |  |
                  |    |  (  <_> )        \|   Y  \ /_____/ /    |    \   Y  \/ __ \|  |
                  |____|   \____/_______  /|___|  /         \_______  /___|  (____  /__|
-                                       \/      \/                  \/     \/     \/  
+                                       \/      \/                  \/     \/     \/
                                                                         Module Manifest
                                                                             Version 0.1
 
@@ -34,8 +34,8 @@ function Get-ComputerConfiguration {
         foreach ($f in $Filter) {
             $allPlugins | Where-Object { $_.provides -contains $f }
         }
-    } 
-    else 
+    }
+    else
     {
         $Filter = $allPlugins.provides
         $allPlugins
@@ -54,12 +54,12 @@ function Get-ComputerConfiguration {
     }
     $ErrorActionPreference = $oldErrorActionPreference
 
-    $result | ConvertTo-Json -Depth 40
+    $result | ConvertTo-Json -Depth 20 -Compress
 <#
  .SYNOPSIS
- The Get-ComputerConfiguration cmdlet is the main and only cmdlet that gets exported from this module. 
+ The Get-ComputerConfiguration cmdlet is the main and only cmdlet that gets exported from this module.
  It will pick up the ps1 plugins from the specified folder or the default folder if no specific directory is set.
- 
+
  .DESCRIPTION
  See the synopsis field.
 
@@ -83,9 +83,9 @@ function Insert-WMIUnderscore {
 
 <#
  .SYNOPSIS
- The Get-ComputerConfiguration cmdlet is the main and only cmdlet that gets exported from this module. 
+ The Get-ComputerConfiguration cmdlet is the main and only cmdlet that gets exported from this module.
  It will pick up the ps1 plugins from the specified folder or the default folder if no specific directory is set.
- 
+
  .DESCRIPTION
  See the synopsis field.
 
@@ -106,14 +106,14 @@ Function ConvertTo-MaskLength {
         [Alias("Mask")]
         [String]$SubnetMask
     )
-    
+
     Process {
         if (!$SubnetMask.Contains(".")) { Return $SubnetMask }
         $Bits = (([ipaddress]$SubnetMask).GetAddressBytes() | ForEach-Object { [Convert]::ToString($_, 2) }) -join "" -replace '[s0]'
-    
+
         Return $Bits.Length
     }
-    
+
 <#
  .Synopsis
    Returns the length of a subnet mask.
@@ -128,8 +128,8 @@ Function ConvertTo-MaskLength {
 # SIG # Begin signature block
 # MIIOiwYJKoZIhvcNAQcCoIIOfDCCDngCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU2uzNce6RgK9WMOp+WsXAIjWr
-# eymggguKMIIFeDCCBGCgAwIBAgIQPafpKcj/PFgmgXzOvQfTTjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU2fe74HSlhKda+D3DdiAI+3Lp
+# A96ggguKMIIFeDCCBGCgAwIBAgIQPafpKcj/PFgmgXzOvQfTTjANBgkqhkiG9w0B
 # AQUFADCBtDELMAkGA1UEBhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMR8w
 # HQYDVQQLExZWZXJpU2lnbiBUcnVzdCBOZXR3b3JrMTswOQYDVQQLEzJUZXJtcyBv
 # ZiB1c2UgYXQgaHR0cHM6Ly93d3cudmVyaXNpZ24uY29tL3JwYSAoYykxMDEuMCwG
@@ -197,11 +197,11 @@ Function ConvertTo-MaskLength {
 # VmVyaVNpZ24gQ2xhc3MgMyBDb2RlIFNpZ25pbmcgMjAxMCBDQQIQPafpKcj/PFgm
 # gXzOvQfTTjAJBgUrDgMCGgUAoHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZ
 # BgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYB
-# BAGCNwIBFTAjBgkqhkiG9w0BCQQxFgQU19F+YtcDDVGMVNPMzA+ABWqIYpEwDQYJ
-# KoZIhvcNAQEBBQAEggEAgynxT7MPWArI1AjDUEyh5Ga0pxoCx2kwes3nR4mVd7h4
-# 7BMLIddvEob/H1pUsvsBQkSc/OY8ErpYitGKm9QbC/yqYh1anpv90aITQ32NaOxn
-# rrHO3PX0OwRhONJD+eSjkSywGvOMALGH07j6y93p6T4jALdsbCpFoMl8001cmNz1
-# g99ldiLt9/um+3kTjkjPPIZ3UuVgw7rtcByKMRkM9yOM2ybVns5vwjflQcWueF4D
-# yslfJU0PUn5UjOjIdnPZrvn0PALf2XJ7ppReCQf4Y4y3BI8tbeDz1/zHlEhv3a36
-# rLv9fD6Cf9/2R9sB//sKq0WTE/hTCCYKmcemJWApkQ==
+# BAGCNwIBFTAjBgkqhkiG9w0BCQQxFgQU3BmQpRol5qVygI4VyVpLmqwrkvIwDQYJ
+# KoZIhvcNAQEBBQAEggEAY97rnsIG2AKZRmfe4F7Z4kD4YAMxdxGwIPgJqLZZr3WK
+# kUcsrPwT6WDpFiL1Y/nBZUScwMSSKBRtIOuUp+xO/dgsQous0cDEB1sD/ODH+pW2
+# GxYAvnJY6aK8ASR+ET+LLq+eSH+1ZSFoiPUcmvaREujwLQLabUbkXOVj+DTYeY3a
+# hek7CuDuazCkBINbwDKERgjDhrokKoEkuJU4dZ9jbw/StnCixl9JPgFE8fPEruMq
+# KGeOEqruA2pjjbOVlykFJ1h5aUfTJXyr7+ejZ4BVVPoHOq1tgO29AQkm8IeIKtNX
+# dvYsscikIVw29GSvfxyg7eg5YEFD3lobAdSBSay5ZA==
 # SIG # End signature block
