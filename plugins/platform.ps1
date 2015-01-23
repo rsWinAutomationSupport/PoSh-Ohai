@@ -1,10 +1,13 @@
 ﻿$provides = 'os','platform_family','platform','platform_version','platform_architecture','platform_servicepack_major','platform_servicepack_minor','powershell_version'
 function Collect-Data {
+    if(((Get-CimInstance Win32_OperatingSystem).CreationClassName) -eq 'Win32_OperatingSystem'){
+        $OperatingSystem = 'Windows'
+    }
     $os = @{
-        'os' = $(((Get-CimInstance Win32_OperatingSystem).RegisteredUser).split(' ')[0])
+        'os' = $OperatingSystem
     }
     $platform_family    = @{
-        'platform_family' = $(((Get-CimInstance Win32_OperatingSystem).RegisteredUser).split(' ')[0])
+        'platform_family' = $OperatingSystem
     }
     $platform    = @{
         'platform' = $((Get-CimInstance Win32_OperatingSystem).Caption)
