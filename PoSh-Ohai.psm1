@@ -53,8 +53,13 @@ function Get-ComputerConfiguration {
     }
     $ErrorActionPreference = $oldErrorActionPreference
 
-    $result | ConvertTo-Json -Depth 20 -Compress
-
+    $PowershellVersion = $PSVersionTable.PSVersion.Major
+    if ($PowershellVersion -le 2) {
+        $result
+    }
+    elseif($PowershellVersion -ge 3){
+        $result | ConvertTo-Json -Depth 20 -Compress
+    }
 
     <#
         .SYNOPSIS
