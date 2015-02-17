@@ -1,7 +1,10 @@
-﻿$provides = "time_zone"
+﻿$provides = 'time_zone'
 
 function Collect-Data {
-  $timezone = [ordered]@{}
-  $timezone = Get-WmiObject Win32_TimeZone
-  [ordered]@{"time_zone"=$timezone.caption} 
+    $output = New-Object System.Collections.Specialized.OrderedDictionary
+    
+    $timezone = New-Object System.Collections.Specialized.OrderedDictionary
+    $timezone = Get-WmiObject Win32_TimeZone
+    $output.Add('time_zone',$timezone.caption)
+    $output
 }

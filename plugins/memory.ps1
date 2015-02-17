@@ -1,22 +1,22 @@
-﻿$provides = "memory"
+﻿$provides = 'memory'
 
 function Collect-Data {
-    $meminfo = [ordered]@{}
+    $output = New-Object System.Collections.Specialized.OrderedDictionary
+    $meminfo = New-Object System.Collections.Specialized.OrderedDictionary
     
-    try
-    {
+    try {
         $memory = Get-WmiObject Win32_PerfRawData_PerfOS_Memory
         
-        $meminfo["AvailableMBytes"] = $memory.AvailableMBytes
-        $meminfo["CommittedMBytes"] = [int]($memory.CommittedBytes / (1024*1024))
-        $meminfo["SystemCacheMBytes"] = [int]($memory.CacheBytes / (1024*1024))
-        $meminfo["NonPagedPoolMBytes"] = [int]($memory.PoolNonpagedBytes / (1024*1024))
-        $meminfo["PagedPoolMBytes"] = [int]($memory.PoolPagedBytes / (1024*1024))
+        $meminfo['AvailableMBytes'] = $memory.AvailableMBytes
+        $meminfo['CommittedMBytes'] = [int]($memory.CommittedBytes / (1024*1024))
+        $meminfo['SystemCacheMBytes'] = [int]($memory.CacheBytes / (1024*1024))
+        $meminfo['NonPagedPoolMBytes'] = [int]($memory.PoolNonpagedBytes / (1024*1024))
+        $meminfo['PagedPoolMBytes'] = [int]($memory.PoolPagedBytes / (1024*1024))
     }
-    catch
-    {
-        #$meminfo["Error"] = $_.Exception.ToString()
+    catch {
+        $meminfo['Error'] = $_.Exception.ToString()
     }
     
-    @{ "memory" = $meminfo}
+    $output.Add('memory' , $meminfo)
+    $output
 }

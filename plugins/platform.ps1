@@ -1,6 +1,6 @@
 ﻿$provides = 'os','platform_family','platform','platform_version','platform_architecture','platform_servicepack_major','platform_servicepack_minor','powershell_version'
 function Collect-Data {
-    if(((Get-CimInstance Win32_OperatingSystem).CreationClassName) -eq 'Win32_OperatingSystem'){
+    if(((Get-WmiObject Win32_OperatingSystem).CreationClassName) -eq 'Win32_OperatingSystem'){
         $OperatingSystem = 'Windows'
     }
     $os = @{
@@ -10,19 +10,19 @@ function Collect-Data {
         'platform_family' = $OperatingSystem
     }
     $platform    = @{
-        'platform' = $((Get-CimInstance Win32_OperatingSystem).Caption)
+        'platform' = $((Get-WmiObject Win32_OperatingSystem).Caption)
     }
     $platform_version    = @{
-        'platform_version' = $((Get-CimInstance Win32_OperatingSystem).version)
+        'platform_version' = $((Get-WmiObject Win32_OperatingSystem).version)
     }
     $platform_architecture    = @{
-        'platform_architecture' = $((Get-CimInstance Win32_OperatingSystem).OSArchitecture)
+        'platform_architecture' = $((Get-WmiObject Win32_OperatingSystem).OSArchitecture)
     }
     $platform_servicepack_major    = @{
-        'platform_servicepack_major' = $((Get-CimInstance Win32_OperatingSystem).ServicePackMajorVersion)
+        'platform_servicepack_major' = $((Get-WmiObject Win32_OperatingSystem).ServicePackMajorVersion)
     }
     $platform_servicepack_minor    = @{
-        'platform_servicepack_minor' = $((Get-CimInstance Win32_OperatingSystem).ServicePackMinorVersion)
+        'platform_servicepack_minor' = $((Get-WmiObject Win32_OperatingSystem).ServicePackMinorVersion)
     }
     $powershell_version    = @{
         'powershell_version' = $($PSVersionTable.PSVersion.ToString())

@@ -1,11 +1,14 @@
-$provides = "ServerFeatures", "OptionalFeatures"
+$provides = 'ServerFeatures', 'OptionalFeatures'
 
 function Collect-Data {
-  $ServerFeatures = [ordered]@{}
-  $OptionalFeatures = [ordered]@{}
-  $list_ServerFeatures = Get-WmiObject -Class Win32_ServerFeature | select ParentId,Id,Name
-  $list_OptionalFeatures = Get-WmiObject -Class Win32_OptionalFeature | select Name,InstallState
+    $ServerFeatures = New-Object System.Collections.Specialized.OrderedDictionary
+    $OptionalFeatures = New-Object System.Collections.Specialized.OrderedDictionary
 
-  [ordered]@{"ServerFeatures" = $list_ServerFeatures}
-  [ordered]@{"OptionalFeatures" = $list_OptionalFeatures}
+    $list_ServerFeatures = Get-WmiObject -Class Win32_ServerFeature | Select-Object ParentId,Id,Name
+    $list_OptionalFeatures = Get-WmiObject -Class Win32_OptionalFeature | Select-Object Name,InstallState
+
+    $ServerFeatures.Add('ServerFeatures', $list_ServerFeatures)
+    $OptionalFeatures.Add('OptionalFeatures', $list_OptionalFeatures)
+    $ServerFeatures
+    $OptionalFeatures
 }

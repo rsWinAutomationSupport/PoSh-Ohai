@@ -1,8 +1,10 @@
-﻿$provides = "services"
+﻿$provides = 'services'
 
 function Collect-Data {
-  $services = [ordered]@{}
-  $list_services = Get-WmiObject -Class Win32_Service | select Name,ProcessId,State,StartMode,Status
+    $output = New-Object System.Collections.Specialized.OrderedDictionary
+    $services = New-Object System.Collections.Specialized.OrderedDictionary
+    $list_services = Get-WmiObject -Class Win32_Service | Select-Object Name,ProcessId,State,StartMode,Status
 
-  [ordered]@{"services" = $list_services}
+    $output.Add('services' , $list_services)
+    $output
 }

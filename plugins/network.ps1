@@ -1,14 +1,16 @@
-﻿$provides = "network"
+﻿$provides = 'network'
 
 function Collect-Data {
-    $iface = [ordered]@{}
-    $iface_config = [ordered]@{}
-    $iface_instance = [ordered]@{}
+
+    $output = New-Object System.Collections.Specialized.OrderedDictionary
+    $iface = New-Object System.Collections.Specialized.OrderedDictionary
+    $iface_config = New-Object System.Collections.Specialized.OrderedDictionary
+    $iface_instance = New-Object System.Collections.Specialized.OrderedDictionary
 
     $adapters = Get-WmiObject Win32_NetworkAdapterConfiguration
     foreach ($adapter in $adapters) {
         $i = $adapter.Index
-        $iface_config[$i] = [ordered]@{}
+        $iface_config[$i] = New-Object System.Collections.Specialized.OrderedDictionary
         foreach ($p in $adapter.properties) {
             $iface_config[$i][(Insert-WMIUnderscore $p.name)] = $adapter[$p.name]
         }
@@ -17,7 +19,7 @@ function Collect-Data {
     $adapters = Get-WmiObject Win32_NetworkAdapter
     foreach ($adapter in $adapters) {
         $i = $adapter.Index
-        $iface_instance[$i] = [ordered]@{}
+        $iface_instance[$i] = New-Object System.Collections.Specialized.OrderedDictionary
         foreach ($p in $adapter.properties) {
             $iface_instance[$i][(Insert-WMIUnderscore $p.name)] = $adapter[$p.name]
         }
@@ -26,20 +28,22 @@ function Collect-Data {
     foreach ($i in $iface_instance.Keys) {
         if ($iface_config[$i]["ip_enabled"] -and $iface_instance[$i]["net_connection_id"]) {
             $cint = "0x" + [System.Convert]::ToString($(if ($iface_instance[$i]["interface_index"]) {$iface_instance[$i]["interface_index"]} else {$iface_instance[$i]["index"]}),16)
-            $iface[$cint] = [ordered]@{}
+            $iface[$cint] = New-Object System.Collections.Specialized.OrderedDictionary
             $iface[$cint]["configuration"] = $iface_config[$i]
             $iface[$cint]["instance"] = $iface_instance[$i]
 
-            $iface[$cint]["counters"] = [ordered]@{}
-            $iface[$cint]["addresses"] = [ordered]@{}
+            $iface[$cint]["counters"] = New-Object System.Collections.Specialized.OrderedDictionary
+            $iface[$cint]["addresses"] = New-Object System.Collections.Specialized.OrderedDictionary
             $i = 0
             foreach ($ip in $iface[$cint]["configuration"]["ip_address"]) {
-                $iface[$cint]["addresses"][$ip] = [ordered]@{"prefixlen" = ConvertTo-MaskLength $iface[$cint]["configuration"]["ip_subnet"][$i]}
+                $prefixlen = New-Object System.Collections.Specialized.OrderedDictionary
+                $iface[$cint]["addresses"][$ip] = $prefixlen.Add('prefixlen' , (ConvertTo-MaskLength $iface[$cint]["configuration"]["ip_subnet"][$i]))
                 
                 $i += 1
             }
         }
     }
 
-    @{"network" = $iface}
+    $output.Add('network' , $iface)
+    $output
 }

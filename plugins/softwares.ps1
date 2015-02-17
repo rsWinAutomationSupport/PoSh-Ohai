@@ -1,9 +1,11 @@
-$provides = "softwares"
+$provides = 'softwares'
 function Collect-Data {
-  $softwares = [ordered]@{}
+    $output = New-Object System.Collections.Specialized.OrderedDictionary
+    $softwares = New-Object System.Collections.Specialized.OrderedDictionary
 
-  $list_softwares = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |
-                    Select-Object DisplayName, DisplayVersion, Publisher, InstallDate
+    $list_softwares = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |
+                        Select-Object DisplayName, DisplayVersion, Publisher, InstallDate
 
-  [ordered]@{"softwares" = $list_softwares}
+    $output.Add('softwares' , $list_softwares)
+    $output
 }
