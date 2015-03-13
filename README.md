@@ -3,9 +3,11 @@ PoSh-Ohai
 
 PowerShell interpretation of opscode's Ohai
 
-<br>Prerequisites</br> - Powershell v3
+Prerequisites - Powershell v3
 
-<br>Usage:</br>
+
+
+Usage:
 
 Place contents of this repo in C:\Program Files\WindowsPowershell\Modules\Posh-Ohai
 
