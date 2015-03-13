@@ -18,10 +18,12 @@ function Get-ComputerConfiguration {
     param(
         [parameter(Mandatory=$false)]
         [ValidateScript({Test-Path $_ -PathType 'Container'})]
-        [string]$Directory = ([string](Split-Path (Get-Variable MyInvocation -Scope 1).Value.MyCommand.Path) + '\plugins'),
+        [string]$Directory,
         [parameter(Mandatory=$false,Position=0)]
         [string[]]$Filter
     )
+    $Directory = ($Directory,'\plugins'-join '')
+    Write-Verbose $Directory
     $allPlugins = @()
     foreach ($file in (Get-ChildItem $Directory -Filter *.ps1)) {
         $plugin = @{}
