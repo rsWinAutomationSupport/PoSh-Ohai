@@ -16,13 +16,19 @@
 function Get-ComputerConfiguration {
     [CmdletBinding()]
     param(
-        [parameter(Mandatory=$false)]
+        [parameter(Mandatory=$true)]
         [ValidateScript({Test-Path $_ -PathType 'Container'})]
-        [string]$Directory,
+        [string]$moduleDirectory,
+        [parameter(Mandatory=$true)]
+        [ValidateScript({Test-Path $_ -PathType 'Container'})]
+        [string]$outpath,
         [parameter(Mandatory=$false,Position=0)]
-        [string[]]$Filter
+        [string[]]$Filter,
+        [parameter(Mandatory=$true)]
+        [string]$role
     )
-    $Directory = ($Directory,'\plugins'-join '')
+    
+    $Directory = ($moduleDirectory,'\plugins'-join '')
     Write-Verbose $Directory
     $allPlugins = @()
     foreach ($file in (Get-ChildItem $Directory -Filter *.ps1)) {
@@ -57,10 +63,13 @@ function Get-ComputerConfiguration {
 
     $PowershellVersion = $PSVersionTable.PSVersion.Major
     if ($PowershellVersion -le 2) {
-        $result
+        $output = $result
+        Set-Content -Path ($outpath,'\',$role,'_discovery.txt' -join '') -Value $output
+
     }
     elseif($PowershellVersion -ge 3){
-        $result | ConvertTo-Json -Depth 20 -Compress
+        $output = $result | ConvertTo-Json -Depth 20 -Compress
+        Set-Content -Path ($outpath,'\',$role,'_discovery.json' -join '') -Value $output
     }
 
     <#
