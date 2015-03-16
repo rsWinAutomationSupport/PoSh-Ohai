@@ -11,6 +11,7 @@ Usage:
 
 Place contents of this repo in C:\Program Files\WindowsPowershell\Modules\Posh-Ohai
 
+This will output a JSON file of the server's configuration named \<role>_discovery.json
 
 <pre>
 Import-Module Posh-Ohai
